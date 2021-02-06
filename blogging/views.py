@@ -2,29 +2,30 @@
 
 from django.shortcuts import render
 from django.http import Http404
-from polling.models import Poll
+from blogging.models import Category, Post
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 
 def list_view(request):
-    context = {'polls': Poll.objects.all()}
-    return render(request, 'polling/list.html', context)
+    context = {'posts': Post.objects.all()}
+    return render(request, 'blogging/list.html', context)
 
 
-def detail_view(request, poll_id):
+def detail_view(request, post_id):
     try:
-        poll = Poll.objects.get(pk=poll_id)
-    except Poll.DoesNotExist:
+        post = Post.objects.get(pk=post_id)
+    except Post.DoesNotExist:
         raise Http404
 
     if request.method == "POST":
         if request.POST.get("vote") == "Yes":
-            poll.score += 1
+            post.score += 1
         else:
-            poll.score -= 1
-        poll.save()
+            post.score -= 1
+        post.save()
 
-    context = {'poll': poll}
+    context = {'poll': post}
     return render(request, 'polling/detail.html', context)
+
 
 def stub_view(request, *args, **kwargs):
     body = "Stub View\n\n"
