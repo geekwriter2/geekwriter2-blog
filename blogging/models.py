@@ -25,3 +25,8 @@ class Category(models.Model):
 
     class Meta:
         verbose_name_plural = 'Categories'
+
+
+class AdminModel(models.Model):
+    admin_post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    admin_category = models.ForeignKey(Category, on_delete=models.CASCADE)
